@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Education from './components/Education';
+import General from './components/General';
+import PracticalExperience from './components/PracticalExperience';
+import Overview from './components/Overview';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			name: '',
+			email: '',
+			phone: '',
+
+			isFormSaved: false,
+			btnText: 'Save info',
+		};
+	}
+
+	handleButtonClick = () => {
+		this.setState({
+			isFormSaved: !this.state.isFormSaved,
+		});
+
+		if (!this.state.isFormSaved) {
+			this.setState({ btnText: 'Edit info' });
+		} else {
+			this.setState({ btnText: 'Save info' });
+		}
+	};
+
+	handleChange = (e) => {
+		this.setState({
+			[e.target.id]: e.target.value,
+		});
+	};
+
+	render() {
+		return (
+			<div>
+				<section>
+					<General
+						onChange={this.handleChange}
+						disabled={this.state.isFormSaved}
+					/>
+					<Education />
+					<PracticalExperience />
+					<button onClick={this.handleButtonClick}>{this.state.btnText}</button>
+				</section>
+				<section>
+					<Overview data={this.state} />
+				</section>
+			</div>
+		);
+	}
 }
 
 export default App;
