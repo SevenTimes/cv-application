@@ -1,34 +1,34 @@
-export default function PracticalExperience(props) {
+export default function GeneralInformation(props) {
 	return (
 		<form>
 			<label>
-				Company name:
+				Name:
 				<input
 					type="text"
-					id="companyName"
+					id="name"
 					onChange={props.onChange}
 					disabled={props.disabled}
-					placeholder={props.placeholder.companyName}
+					placeholder={props.placeholder.name}
 				/>
 			</label>
 			<label>
-				Position title:
+				Email:
 				<input
-					type="text"
-					id="positionTitle"
+					type="email"
+					id="email"
 					onChange={props.onChange}
 					disabled={props.disabled}
-					placeholder={props.placeholder.positionTitle}
+					placeholder={props.placeholder.email}
 				/>
 			</label>
 			<label>
-				Main tasks:
+				Phone number:
 				<input
-					type="text"
-					id="mainTasks"
+					type="tel"
+					id="phone"
 					onChange={props.onChange}
 					disabled={props.disabled}
-					placeholder={props.placeholder.mainTasks}
+					placeholder={props.placeholder.phone}
 				/>
 			</label>
 		</form>
