@@ -3,6 +3,7 @@ import EducationalExperience from './components/EducationalExperience';
 import GeneralInformation from './components/GeneralInformation';
 import PracticalExperience from './components/PracticalExperience';
 import Overview from './components/Overview';
+import './styles/App.css';
 
 class App extends React.Component {
 	constructor() {
@@ -50,9 +51,10 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="app">
+				<h1>Basic CV Application</h1>
 				{!this.state.isFormSaved && (
-					<section>
+					<section className="editInfo">
 						<GeneralInformation
 							onChange={this.handleChange}
 							disabled={this.state.isFormSaved}
@@ -71,7 +73,7 @@ class App extends React.Component {
 					</section>
 				)}
 				{this.state.isFormSaved && (
-					<section>
+					<section className="overview">
 						<Overview data={this.state} />
 					</section>
 				)}
