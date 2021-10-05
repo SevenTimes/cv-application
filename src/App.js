@@ -50,10 +50,36 @@ class App extends React.Component {
 	};
 
 	render() {
+		const overview = (
+			<section className="overview">
+				<Overview data={this.state} />
+			</section>
+		);
+
+		const form = (
+			<section className="editInfo">
+				<GeneralInformation
+					onChange={this.handleChange}
+					disabled={this.state.isFormSaved}
+					placeholder={this.state}
+				/>
+				<EducationalExperience
+					onChange={this.handleChange}
+					disabled={this.state.isFormSaved}
+					placeholder={this.state}
+				/>
+				<PracticalExperience
+					onChange={this.handleChange}
+					disabled={this.state.isFormSaved}
+					placeholder={this.state}
+				/>
+			</section>
+		);
+
 		return (
 			<div className="app">
 				<h1>Basic CV Application</h1>
-				{!this.state.isFormSaved && (
+				{/* {!this.state.isFormSaved && (
 					<section className="editInfo">
 						<GeneralInformation
 							onChange={this.handleChange}
@@ -76,7 +102,8 @@ class App extends React.Component {
 					<section className="overview">
 						<Overview data={this.state} />
 					</section>
-				)}
+				)} */}
+				{this.state.isFormSaved ? overview : form}
 				<button onClick={this.handleButtonClick}>{this.state.btnText}</button>
 			</div>
 		);
