@@ -1,113 +1,91 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import EducationalExperience from './components/EducationalExperience';
 import GeneralInformation from './components/GeneralInformation';
 import PracticalExperience from './components/PracticalExperience';
 import Overview from './components/Overview';
 import './styles/App.css';
 
-class App extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			/* General info */
-			name: '',
-			email: '',
-			phone: '',
+function App() {
+	const [generalInfo, setGeneralInfo] = useState({
+		name: '',
+		email: '',
+		phone: '',
+	});
+	const [educationInfo, setEducationInfo] = useState({
+		schoolName: '',
+		studyTitle: '',
+		studyStartDate: '',
+		studyEndDate: '',
+	});
+	const [practiceInfo, setPracticeInfo] = useState({
+		companyName: '',
+		positionTitle: '',
+		mainTasks: '',
+	});
+	const [isFormSaved, setIsFormSaved] = useState(false);
+	const [btnText, setBtnText] = useState('Save info');
 
-			/* Education info */
-			schoolName: '',
-			studyTitle: '',
-			studyStartDate: '',
-			studyEndDate: '',
-
-			/* Practical experience */
-			companyName: '',
-			positionTitle: '',
-			mainTasks: '',
-
-			/* Form */
-			isFormSaved: false,
-			btnText: 'Save info',
-		};
+	function handleButtonClick() {
+		setIsFormSaved(!isFormSaved);
 	}
 
-	handleButtonClick = () => {
-		this.setState({
-			isFormSaved: !this.state.isFormSaved,
-		});
-
-		if (!this.state.isFormSaved) {
-			this.setState({ btnText: 'Edit info' });
+	useEffect(() => {
+		if (!isFormSaved) {
+			setBtnText('Edit info');
 		} else {
-			this.setState({ btnText: 'Save info' });
+			setBtnText('Save info');
 		}
-	};
+	}, [isFormSaved]);
 
-	handleChange = (e) => {
-		this.setState({
-			[e.target.id]: e.target.value,
-		});
-	};
+	const overview = (
+		<section className="overview">
+			<Overview
+				general={generalInfo}
+				education={educationInfo}
+				practice={practiceInfo}
+			/>
+		</section>
+	);
 
-	render() {
-		const overview = (
-			<section className="overview">
-				<Overview data={this.state} />
-			</section>
-		);
+	const form = (
+		<section className="editInfo">
+			<GeneralInformation
+				onChange={(e) =>
+					setGeneralInfo((info) => ({ ...info, [e.target.id]: e.target.value }))
+				}
+				disabled={isFormSaved}
+				placeholder={generalInfo}
+			/>
+			<EducationalExperience
+				onChange={(e) =>
+					setEducationInfo((info) => ({
+						...info,
+						[e.target.id]: e.target.value,
+					}))
+				}
+				disabled={isFormSaved}
+				placeholder={educationInfo}
+			/>
+			<PracticalExperience
+				onChange={(e) =>
+					setPracticeInfo((info) => ({
+						...info,
+						[e.target.id]: e.target.value,
+					}))
+				}
+				disabled={isFormSaved}
+				placeholder={practiceInfo}
+			/>
+		</section>
+	);
 
-		const form = (
-			<section className="editInfo">
-				<GeneralInformation
-					onChange={this.handleChange}
-					disabled={this.state.isFormSaved}
-					placeholder={this.state}
-				/>
-				<EducationalExperience
-					onChange={this.handleChange}
-					disabled={this.state.isFormSaved}
-					placeholder={this.state}
-				/>
-				<PracticalExperience
-					onChange={this.handleChange}
-					disabled={this.state.isFormSaved}
-					placeholder={this.state}
-				/>
-			</section>
-		);
-
-		return (
-			<div className="app">
-				<h1>Basic CV Application</h1>
-				{/* {!this.state.isFormSaved && (
-					<section className="editInfo">
-						<GeneralInformation
-							onChange={this.handleChange}
-							disabled={this.state.isFormSaved}
-							placeholder={this.state}
-						/>
-						<EducationalExperience
-							onChange={this.handleChange}
-							disabled={this.state.isFormSaved}
-							placeholder={this.state}
-						/>
-						<PracticalExperience
-							onChange={this.handleChange}
-							disabled={this.state.isFormSaved}
-							placeholder={this.state}
-						/>
-					</section>
-				)}
-				{this.state.isFormSaved && (
-					<section className="overview">
-						<Overview data={this.state} />
-					</section>
-				)} */}
-				{this.state.isFormSaved ? overview : form}
-				<button onClick={this.handleButtonClick}>{this.state.btnText}</button>
-			</div>
-		);
-	}
+	return (
+		<div className="app">
+			<h1>Basic CV Application</h1>
+			{isFormSaved ? overview : form}
+			<button onClick={handleButtonClick}>{btnText}</button>
+		</div>
+	);
 }
 
 export default App;
